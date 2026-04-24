@@ -3,9 +3,8 @@ FROM python:3.12-slim
 WORKDIR /app
 
 COPY pyproject.toml requirements.txt ./
-RUN pip install --no-cache-dir .
-
 COPY . .
+RUN pip install --no-cache-dir .
 
 ENV CONFIG_FILE=/app/config.yaml
 ENV DAEMON=true

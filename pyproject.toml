@@ -22,6 +22,9 @@ dependencies = [
 [project.scripts]
 vinted-notifier = "vinted_notifier.cli:main"
 
+[tool.setuptools.packages.find]
+include = ["vinted_notifier*"]
+
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
