@@ -82,7 +82,7 @@ def main(argv=None):
             if not should_loop:
                 LOGGER.info("Run complete. Exiting.")
                 break
-            LOGGER.info("Sleeping for %s seconds...")
+            LOGGER.info("Sleeping for %s seconds...", config.run_interval)
             time.sleep(config.run_interval)
     except KeyboardInterrupt:
         LOGGER.info("Interrupted by user, exiting.")
