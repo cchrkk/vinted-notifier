@@ -1,9 +1,10 @@
-# vinted-notifier (100% VIBE CODED PROJECT)
+# Vinted Notifier
 
 ![logo](vinted-notifier.png)
 
 Receive Apprise notifications when new Vinted items matching your criteria are added.
 
+_(100% VIBE CODED PROJECT)_
 ## Features
 
 - 🐍 Python-based executable with optional daemon mode
@@ -62,10 +63,16 @@ docker build -t vinted-notifier .
 docker run --rm -v "$PWD/config.yaml:/app/config.yaml" -v "$PWD/data:/app/data" vinted-notifier
 ```
 
+Or pull the prebuilt image from GitHub Container Registry:
+
+```bash
+docker run --rm -v "$PWD/config.yaml:/app/config.yaml" -v "$PWD/data:/app/data" ghcr.io/cchrkk/vinted-notifier:latest
+```
+
 To run continuously, set the daemon environment variable in Docker:
 
 ```bash
-docker run --rm -v "$PWD/config.yaml:/app/config.yaml" -v "$PWD/data:/app/data" -e DAEMON=true -e RUN_INTERVAL=600 vinted-notifier
+docker run --rm -v "$PWD/config.yaml:/app/config.yaml" -v "$PWD/data:/app/data" -e DAEMON=true -e RUN_INTERVAL=600 ghcr.io/cchrkk/vinted-notifier:latest
 ```
 
 ## Docker Compose
@@ -78,21 +85,12 @@ docker compose up -d
 
 Your example `docker-compose.yml` will mount `config.yaml` and `data` into the container and keep the service always restarting unless stopped.
 
-## GitHub Actions
-
-A ready-to-use workflow is available at `.github/workflows/docker-image.yml`.
-It builds the Docker image and pushes it to GitHub Container Registry using tags:
-
-- `ghcr.io/<OWNER>/vinted-notifier:latest`
-- `ghcr.io/<OWNER>/vinted-notifier:<commit-sha>`
-
-The workflow uses the built-in `${{ secrets.GITHUB_TOKEN }}` for authentication, so no additional configuration is required for repositories with GitHub Packages enabled.
-
 ## Notes
 
 - The project uses the Vinted catalog API to fetch search results.
 - Only new item IDs are notified once and recorded in the SQLite database.
 - You can track multiple search URLs and use separate Vinted instances per query.
+- The entire project is 100% vibecoded, check before running if you're worried.
 
 ## License
 
