@@ -30,7 +30,22 @@ def run_once(config):
 
             title = render_template(config.notification.title, query=query, item=item)
             body = render_template(config.notification.body, query=query, item=item)
-            send_notifications(notifier, title, body)
+            attach = None
+            if config.notification.attach_images and item.get("image_url"):
+                attach = [item["image_url"]]
+            success = send_notifications(
+                notifier,
+                title,
+                body,
+                attach=attach,
+                delay=config.notification.send_interval,
+            )
+            if not success:
+                LOGGER.warning(
+                    "Notification failed for %s; item will not be marked as notified and remaining items in this query will be skipped",
+                    item["id"],
+                )
+                break
             store.mark_notified(slot, item)
             LOGGER.info("Notified new item %s for query %s", item["id"], query.name)
 

@@ -33,7 +33,7 @@ def _build_headers():
     }
 
 
-def _normalize_item(raw_item, query_name):
+def _normalize_item(raw_item, query_name, instance):
     title = raw_item.get("title") or raw_item.get("brand_title") or raw_item.get("description") or "Untitled"
     raw_price = raw_item.get("price") or raw_item.get("price_amount") or raw_item.get("price_cents")
     if isinstance(raw_price, dict):
@@ -44,13 +44,24 @@ def _normalize_item(raw_item, query_name):
         currency = raw_item.get("currency") or raw_item.get("price_currency") or "EUR"
 
     normalized_price = f"{amount} {currency}" if amount else "n/a"
+    image_url = raw_item.get("photo", {}).get("full_size_url")
+    if not image_url:
+        photos = raw_item.get("photos") or raw_item.get("images")
+        if isinstance(photos, list) and photos:
+            image_url = photos[0].get("full_size_url") if isinstance(photos[0], dict) else None
+
+    url = raw_item.get("url") or raw_item.get("item_url") or raw_item.get("web_url") or raw_item.get("path") or ""
+    if url and url.startswith("/"):
+        url = f"https://www.vinted.{instance}{url}"
+
     return {
         "id": raw_item.get("id"),
         "title": title,
         "brand": raw_item.get("brand_title") or raw_item.get("brand") or "Unknown",
         "price": normalized_price,
         "currency": currency,
-        "url": raw_item.get("url") or raw_item.get("item_url") or raw_item.get("web_url") or "",
+        "url": url,
+        "image_url": image_url,
         "query_name": query_name,
     }
 
@@ -73,7 +84,7 @@ def fetch_catalog_items(query):
         items = payload.get("items") or payload.get("data", {}).get("items") or []
         results = []
         for item in items:
-            normalized = _normalize_item(item, query.name)
+            normalized = _normalize_item(item, query.name, query.instance)
             if normalized["id"]:
                 results.append(normalized)
         return results

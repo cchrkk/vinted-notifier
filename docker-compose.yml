@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  vinted-notifier:
+    build: .
+    image: vinted-notifier:latest
+    container_name: vinted-notifier
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+      - ./data:/app/data
+    environment:
+      - DAEMON=true
+      - RUN_INTERVAL=600
+    restart: unless-stopped

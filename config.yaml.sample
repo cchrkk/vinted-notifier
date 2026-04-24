@@ -1,22 +1,40 @@
 # Example configuration for vinted-notifier
 
+# List of Apprise notification targets.
+# Use your Discord webhook URL in the form:
+#   discord://{WebhookID}/{WebhookToken}/?image=No
+# or a different Apprise service URL.
 apprise_urls:
-  - "mailto://user:pass@example.com"
-  - "discord://webhook.id/webhook.token"
+  - "discord://143437782343633543453/k663423423423435235234"
 
+# Default Vinted locale used when a query URL omits a domain instance.
+# For example, `it`, `fr`, `com`, etc.
 default_instance: "it"
 
+# SQLite database path used to store already-notified item IDs.
+# This prevents duplicate notifications across runs.
 database: "./data/vinted.db"
+
+# Polling interval in seconds when running in daemon mode.
 run_interval: 600
 
 notification:
+  # Title template for notifications.
   title: "Vinted Alert: {query_name} - {title}"
-  body: "New item found:\nTitle: {title}\nBrand: {brand}\nPrice: {price}\nLink: {url}\nQuery: {query_name}"
+
+  # Body template for notifications.
+  body: "New item found:\nTitle: {title}\nBrand: {brand}\nPrice: {price}\nLink: ||{url}||\nQuery: {query_name}"
+
+  # Enable or disable attaching the item image to the notification.
+  attach_images: true
+
+  # Seconds to wait between notifications to reduce Discord rate limiting.
+  send_interval: 3.0
 
 queries:
   - name: "Valve Steam Deck"
     url: "https://www.vinted.it/catalog?search_text=steam%20deck&brand_ids%5B%5D=562573&price_from=200&price_to=400&currency=EUR&order=price_low_to_high"
     instance: "it"
-  - name: "Nintendo Switch"
-    url: "https://www.vinted.fr/catalog?search_text=nintendo%20switch&price_from=150&currency=EUR&order=price_low_to_high"
-    instance: "fr"
+  - name: "Rog Ally"
+    url: "https://www.vinted.it/catalog?catalog%5B%5D=3025&search_start_type=item_page_video_game_platform&video_game_platform_ids%5B%5D=1259&search_id=33407146939&search_text=asus%20rog%20ally&search_by_image_uuid=&search_by_image_id=&page=1&time=1777036373&brand_ids%5B%5D=205418&price_from=200&currency=EUR&price_to=390"
+    instance: "it"

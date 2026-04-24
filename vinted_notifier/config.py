@@ -20,6 +20,8 @@ class QueryConfig:
 class NotificationConfig:
     title: str
     body: str
+    attach_images: bool = True
+    send_interval: float = 2.0
 
 
 @dataclass
@@ -40,6 +42,8 @@ DEFAULT_CONFIG = {
     "notification": {
         "title": "Vinted: {query_name} - {title}",
         "body": "New listing: {title}\nBrand: {brand}\nPrice: {price}\nLink: {url}\nQuery: {query_name}",
+        "attach_images": True,
+        "send_interval": 3.0,
     },
     "queries": [],
 }
@@ -88,6 +92,8 @@ def load_config(path: Path) -> AppConfig:
         notification=NotificationConfig(
             title=config_data["notification"].get("title", DEFAULT_CONFIG["notification"]["title"]),
             body=config_data["notification"].get("body", DEFAULT_CONFIG["notification"]["body"]),
+            attach_images=bool(config_data["notification"].get("attach_images", DEFAULT_CONFIG["notification"]["attach_images"])),
+            send_interval=float(config_data["notification"].get("send_interval", DEFAULT_CONFIG["notification"]["send_interval"])),
         ),
         queries=queries,
     )
@@ -101,5 +107,6 @@ def render_template(template: str, query: QueryConfig, item: Dict[str, Any]) -> 
         "price": item.get("price", "n/a"),
         "currency": item.get("currency", ""),
         "url": item.get("url", "n/a"),
+        "image_url": item.get("image_url", ""),
     }
     return template.format(**replacements)
