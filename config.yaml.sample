@@ -1,0 +1,22 @@
+# Example configuration for vinted-notifier
+
+apprise_urls:
+  - "mailto://user:pass@example.com"
+  - "discord://webhook.id/webhook.token"
+
+default_instance: "it"
+
+database: "./data/vinted.db"
+run_interval: 600
+
+notification:
+  title: "Vinted Alert: {query_name} - {title}"
+  body: "New item found:\nTitle: {title}\nBrand: {brand}\nPrice: {price}\nLink: {url}\nQuery: {query_name}"
+
+queries:
+  - name: "Valve Steam Deck"
+    url: "https://www.vinted.it/catalog?search_text=steam%20deck&brand_ids%5B%5D=562573&price_from=200&price_to=400&currency=EUR&order=price_low_to_high"
+    instance: "it"
+  - name: "Nintendo Switch"
+    url: "https://www.vinted.fr/catalog?search_text=nintendo%20switch&price_from=150&currency=EUR&order=price_low_to_high"
+    instance: "fr"

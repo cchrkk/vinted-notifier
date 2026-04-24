@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120">
+  <rect width="420" height="120" rx="24" fill="#3c7fb1"/>
+  <path d="M80 36h40v8H88v12h28v8H88v16h32v8H80V36z" fill="#ffffff"/>
+  <path d="M142 36h8v48h20v8h-28V36z" fill="#ffffff"/>
+  <path d="M178 36h32c6.6 0 12 5.4 12 12v28c0 6.6-5.4 12-12 12h-32V36zm8 8v40h24c2.2 0 4-1.8 4-4V52c0-2.2-1.8-4-4-4h-24z" fill="#ffffff"/>
+  <path d="M276 36h8v40h24v8h-32V36z" fill="#ffffff"/>
+  <text x="40" y="100" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="28">Vinted Notifier</text>
+</svg>
